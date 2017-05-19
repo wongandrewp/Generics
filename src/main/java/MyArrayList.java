@@ -27,7 +27,7 @@ public class MyArrayList<E> {
     }
 
     //TODO this just increases size and replaces, need to insert
-    public void add(int index, E element) {
+    public void add(int index, E element) throws IndexOutOfBoundsException {
         E[] newArray = (E[]) new Object[myArray.length + 1];
         System.arraycopy(myArray, 0, newArray, 0, index);
         newArray[index] = element;
@@ -40,7 +40,7 @@ public class MyArrayList<E> {
     }
 
     //TODO resize arraylist after removing element
-    public E remove(int index) {
+    public E remove(int index)  throws IndexOutOfBoundsException{
         E[] newArray = (E[]) new Object[myArray.length - 1];
         if(index==0) {
             return removeFromBeginning(newArray);
@@ -59,7 +59,7 @@ public class MyArrayList<E> {
         return storedElement;
     }
 
-    public E set(int index, E element) {
+    public E set(int index, E element)  throws IndexOutOfBoundsException{
         E storedElement = (E) myArray[index];
         myArray[index] = element;
         return storedElement;
