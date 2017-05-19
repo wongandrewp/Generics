@@ -9,8 +9,8 @@
         <module name="Generics" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Generics" target="1.5" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="Generics" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

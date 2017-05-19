@@ -1,5 +1,6 @@
-import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * Created by andrewwong on 5/19/17.
@@ -8,41 +9,48 @@ public class MyArrayList<E> {
     E[] myArray;
     private int size = 0;
 
-    MyArrayList(){
-        this.myArray = (E[]) new Object[0];
+    MyArrayList() {
+        this.myArray = (E[]) new Object[10];
     }
 
-    MyArrayList(int capacity){
+    MyArrayList(int capacity) {
         this.myArray = (E[]) new Object[capacity];
     }
 
-    public boolean add(E element){
-        myArray = Arrays.copyOf(myArray, myArray.length+1);
-
+    public boolean add(E element) {
+        if (size == myArray.length) {
+            myArray = Arrays.copyOf(myArray, myArray.length + 10);
+        }
         myArray[size] = element;
         size++;
-        if(myArray.length >= size) return true;
-        else return false;
+        return true; //duplicates permitted
     }
 
-    public void add(int index, E element){
-        myArray = Arrays.copyOf(myArray, myArray.length+1);
-        myArray[index] = element;
+    //TODO this just increases size and replaces, need to insert
+    public void add(int index, E element) {
+        E[] newArray = (E[]) new Object[myArray.length + 1];
+        System.arraycopy(myArray, 0, newArray, 0, index);
+        newArray[index] = element;
+        System.arraycopy(myArray, index, newArray, index + 1, myArray.length - index);
+        myArray = newArray;
     }
 
-    public E get(int index){
-        return myArray[index];
+    public E get(int index) {
+        return (E) myArray[index];
     }
 
     //TODO resize arraylist after removing element
-    public E remove(int index){
+    public E remove(int index) {
+        E[] newArray = (E[]) new Object[myArray.length - 1];
+        System.arraycopy(myArray, 0, newArray, 0, index);
+        System.arraycopy(myArray, index, newArray, index - 1, myArray.length - index);
         E storedElement = (E) myArray[index];
-//        myArray = Arrays.copyOf(myArray, myArray.length-1);
+        myArray = newArray;
         return storedElement;
     }
 
-    public E set(int index, E element){
-        E storedElement = myArray[index];
+    public E set(int index, E element) {
+        E storedElement = (E) myArray[index];
         myArray[index] = element;
         return storedElement;
     }
@@ -51,23 +59,46 @@ public class MyArrayList<E> {
         return size;
     }
 
-    public void clear(){
-        for(int i = 0; i < size(); i++){
+    public void clear() {
+        for (int i = 0; i < size(); i++) {
             myArray[i] = null;
         }
         size = 0;
 
     }
 
-    public boolean isEmpty(){
-        if(size == 0) return true;
+    public boolean isEmpty() {
+        if (size == 0) return true;
         else return false;
     }
 
-    public boolean contains(Object o){
-        for(E e: myArray){
-            if (e.equals(o)) return true;
+    public boolean contains(Object o) {
+        for (Object e : myArray) {
+            if ((o == null ? e == null : o.equals(e)) == true) {
+                return true;
+            }
         }
         return false;
+    }
+
+    //    public boolean addAll(Collection<? extends E> c){
+//        //make new myarraylist with an appropriate capacity based on c's size
+//        int placeHolder = myArray.length;
+//        E[] oldMyArray = myArray;
+//        myArray = Arrays.copyOf(myArray, myArray.length + c.size());
+//        //use iterator to add to that new arraylist which has all the previous myarraylist elements
+//        for(Iterator it = c.iterator(); it.hasNext();){
+//            myArray[placeHolder] = (E) it.next();
+//            placeHolder++;
+//        }
+//        return(!oldMyArray.equals(myArray));
+//    }
+    public boolean addAll(MyArrayList<? extends E> c) {
+        E[] oldMyArray = myArray;
+        myArray = Arrays.copyOf(myArray, myArray.length + c.size());
+        for (int i = oldMyArray.length; i < myArray.length; i++) {
+            myArray[i] = c.get(i);
+        }
+        return (!oldMyArray.equals(myArray));
     }
 }

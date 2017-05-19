@@ -29,11 +29,25 @@ public class TestMyArrayList {
         boolean actual = myEmptyIntegerArrayList.add(num);
         //Then
         assertEquals(expected, actual);
+        assertEquals(num, myEmptyIntegerArrayList.get(0));
     }
     @Test
-    public void testIndexAdd(){
+    public void testIndexAddToMiddle(){
         //Given
-        int index = 2;
+        int index = 1;
+        Integer element = new Integer(5);
+        Integer expected = element;
+        //When
+        myNotEmptyIntegerArrayList.add(index, element);
+        Integer actual = myNotEmptyIntegerArrayList.get(index);
+        //Then
+        assertEquals(expected,actual);
+
+    }
+    @Test
+    public void testIndexAddToBeginning(){
+        //Given
+        int index = 0;
         Integer element = new Integer(5);
         Integer expected = element;
         //When
@@ -54,13 +68,27 @@ public class TestMyArrayList {
         assertEquals(expected, actual);
     }
     @Test
-    public void testRemove(){
+    public void testRemoveMiddle(){
         //Given
-        Integer expected = integer0;
+        Integer integer20 = new Integer(20);
+        myNotEmptyIntegerArrayList.add(integer20);
+        //When
+        Integer actual = myNotEmptyIntegerArrayList.remove(1);
+        //Then
+        assertEquals(integer1, actual);
+        assertEquals(integer20, myNotEmptyIntegerArrayList.get(1));
+    }
+    @Test
+    public void testRemoveBeginning(){
+        //Given
+        Integer integer20 = new Integer(20);
+        myNotEmptyIntegerArrayList.add(integer20);
         //When
         Integer actual = myNotEmptyIntegerArrayList.remove(0);
         //Then
-        assertEquals(expected, actual);
+        assertEquals(integer0, actual);
+        assertEquals(integer1, myNotEmptyIntegerArrayList.get(0));
+        assertEquals(integer20, myNotEmptyIntegerArrayList.get(1));
     }
     @Test
     public void testSet(){
@@ -125,5 +153,16 @@ public class TestMyArrayList {
         boolean actual = myEmptyIntegerArrayList.contains(integer0);
         //Then
         assertEquals(expected, actual);
+    }
+    @Test
+    public void testAddAll(){
+        //Given
+        boolean expected = true;
+        MyArrayList dummyList = new MyArrayList<Integer>();
+        dummyList.add(new Integer(9));
+        //When
+        boolean actual = myNotEmptyIntegerArrayList.addAll(dummyList);
+        //Then
+        assertEquals(expected,actual);
     }
 }
