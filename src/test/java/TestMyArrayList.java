@@ -91,6 +91,17 @@ public class TestMyArrayList {
         assertEquals(integer20, myNotEmptyIntegerArrayList.get(1));
     }
     @Test
+    public void testRemoveEnd(){
+        //Given
+        Integer integer20 = new Integer(20);
+        myNotEmptyIntegerArrayList.add(integer20);
+        //When
+        Integer actual = myNotEmptyIntegerArrayList.remove(2);
+        //Then
+        assertEquals(integer20, actual);
+        assertEquals(myNotEmptyIntegerArrayList.get(2), null);
+    }
+    @Test
     public void testSet(){
         //Given
         Integer expected = integer1;

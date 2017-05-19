@@ -42,9 +42,19 @@ public class MyArrayList<E> {
     //TODO resize arraylist after removing element
     public E remove(int index) {
         E[] newArray = (E[]) new Object[myArray.length - 1];
+        if(index==0) {
+            return removeFromBeginning(newArray);
+        }
         System.arraycopy(myArray, 0, newArray, 0, index);
         System.arraycopy(myArray, index, newArray, index - 1, myArray.length - index);
         E storedElement = (E) myArray[index];
+        myArray = newArray;
+        return storedElement;
+    }
+
+    private E removeFromBeginning(E[] newArray){
+        System.arraycopy(myArray, 1, newArray, 0, myArray.length-1);
+        E storedElement = (E) myArray[0];
         myArray = newArray;
         return storedElement;
     }
